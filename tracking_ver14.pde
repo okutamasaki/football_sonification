@@ -66,35 +66,8 @@ void setup() {
   cmx.connect(midiSender, 0, midiout, 0);
   cmx.startSP();
 
-
-  /*データ一覧
-   Playデータなし
-   hiroshima_kashima  
-   
-   Playデータあり
-   Gosaka_niigata.csv
-   kashima_kobe.csv
-   kashima_tosu.csv
-   sapporo_kashiwa.csv
-   sapporo_kawasaki.csv
-   tokyo_sapporo.csv
-   tosu_Gosaka.csv
-   urawa_kashima.csv
-   yokohama_Gosaka.csv
-   yokohama_tokyo.csv
-   */
-   
-   //lines = loadStrings("data/Gosaka_niigata.csv");
-   //lines = loadStrings("data/Gosaka_tosu.csv");
-   //lines = loadStrings("data/hirohsima_kashima.csv");
-   //lines = loadStrings("data/kashima_kobe.csv");
-   lines = loadStrings("data/kashiwa_sapporo.csv");
-   //lines = loadStrings("data/sapporo_kawasaki.csv");
-   //lines = loadStrings("data/sapporo_tokyo.csv");
-   //lines = loadStrings("data/tokyo_yokohama.csv");
-   //lines = loadStrings("data/tosu_kashima.csv");
-   //lines = loadStrings("data/urawa_kashima.csv");
-   //lines = loadStrings("data/yokohama_Gosaka.csv");
+  
+   lines = loadStrings("ここにトラッキングデータを置く");
 
 
   // csvファイルの行数と列数を取得する
