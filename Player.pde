@@ -2,7 +2,6 @@ class Game {
   Team team1 = new Team();
   Team team2 = new Team();
   Ball ball = new Ball();
-  //Triangle tri = new Triangle();
 }
 
 class Team {
