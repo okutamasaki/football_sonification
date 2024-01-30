@@ -1,13 +1,10 @@
 import megamu.mesh.*;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
-
 import jp.crestmuse.cmx.amusaj.sp.*;
 import jp.crestmuse.cmx.processing.*;
-
 import java.util.ArrayList;
 
 CMXController cmx = CMXController.getInstance();
@@ -15,8 +12,6 @@ MidiEventSender midiSender;
 
 boolean[] isNowOn = new boolean[65536];
 int[] notenums = new int[65536];
-
-
 String[] lines; // csvファイルの各行を格納するための文字列型配列
 
 Game game;
@@ -24,15 +19,14 @@ Triangle tri;
 Line line;
 TreeNode root; // ルートノード
 
-
 int shrink = 10;
 float scale = 1.5;
 
 int numRows; // csvファイルの行数
 int numCols; // csvファイルの列数
 
-color SAN_col = color(155, 114, 176);
-color ANT_col = color(162, 32, 65);
+color Home_col = color(155, 114, 176);
+color Away_col = color(162, 32, 65);
 color Ball_col = color(0, 0, 0);
 
 boolean existBall = false;
@@ -40,9 +34,7 @@ boolean existBall = false;
 int count = 0;
 
 void setup() {
-  //size(1150, 780);
   frameRate(25);
-  //frameRate(15);
   size(1725, 1170);
   background(255);
 
@@ -56,9 +48,6 @@ void setup() {
     notenums[6+7*i] = 69 + 12 * i - octave*12;
     notenums[7+7*i] = 71 + 12 * i - octave*12;
   }
-
-
-
   midiSender = new MidiEventSender();
   MidiOutputModule midiout = cmx.createMidiOut();
   cmx.addSPModule(midiSender);
@@ -66,37 +55,28 @@ void setup() {
   cmx.connect(midiSender, 0, midiout, 0);
   cmx.startSP();
 
-  
    lines = loadStrings("ここにトラッキングデータを置く");
-
-
   // csvファイルの行数と列数を取得する
   numRows = lines.length;
-  //numRows = 1048575;
+
   String[] colHeaders = split(lines[0], ',');
   numCols = colHeaders.length;
 
-  //sc = new Soccer();
+
   game = new Game();
   tri = new Triangle();
   line = new Line();
-  //tri = new Triangle();
-
-
 
   for (int i = 0; i < 11; i++) {
     game.team1.pl[i] = new Player(i);
     game.team2.pl[i] = new Player(i);
   }
 
-
   int time, team, number, x, y;
   int time_next;
   float speed;
-
   int H_count = 0;
   int A_count = 0;
-
 
   for (int i = 1; i < numRows-1; i++) {
     String[] values = split(lines[i], ','); 
@@ -139,16 +119,12 @@ void setup() {
   }
 }
 
-
-int i = 749;
-//試合開始時刻
-
+int i = 0;
 boolean ball;
 
 void draw() {
   background(255);
   ball = false;
-
 
   if (keyPressed) {
     if (keyCode == UP) {
@@ -162,10 +138,7 @@ void draw() {
     }
   }
   drawField(true);
-
   int time_count = i - 30*25;
-
-
   int minute = time_count/25/60;
   int second = time_count/25%60;
   textSize(20);
@@ -176,30 +149,18 @@ void draw() {
   int[] timeAX = new int[11];
   int[] timeAY = new int[11];
   for (int t = 0; t < 11; t++) {
-
-    //print(game.team1.pl[t].x[i]+" ");
-
     if (game.ball.x[i] == 0 && game.ball.y[i] == 0) {
-      drawPlayer(game.team1.pl[t].x[i], game.team1.pl[t].y[i], SAN_col);
-      drawPlayer(game.team2.pl[t].x[i], game.team2.pl[t].y[i], ANT_col);
-
+      drawPlayer(game.team1.pl[t].x[i], game.team1.pl[t].y[i], Home_col);
+      drawPlayer(game.team2.pl[t].x[i], game.team2.pl[t].y[i], Away_col);
       timeHX[t] = game.team1.pl[t].x[i];
       timeHY[t] = game.team1.pl[t].y[i];
       timeAX[t] = game.team2.pl[t].x[i];
       timeAY[t] = game.team2.pl[t].y[i];
-
-      /*
-      tri.points[t][0] = game.team1.pl[t].x[i];
-       tri.points[t][1] = game.team1.pl[t].y[i];
-       */
-
       game.ball.inPlay = false;
     } else {  
-      drawPlayer(game.team1.pl[t].x[i], game.team1.pl[t].y[i], SAN_col);
-      drawPlayer(game.team2.pl[t].x[i], game.team2.pl[t].y[i], ANT_col);
+      drawPlayer(game.team1.pl[t].x[i], game.team1.pl[t].y[i], Home_col);
+      drawPlayer(game.team2.pl[t].x[i], game.team2.pl[t].y[i], Away_col);
       drawBall(game.ball.x[i], game.ball.y[i], Ball_col);
-
-
 
       timeHX[t] = game.team1.pl[t].x[i];
       timeHY[t] = game.team1.pl[t].y[i];
@@ -210,17 +171,10 @@ void draw() {
       if (game.team1.pl[t].x[i] == game.ball.x[i] && game.team1.pl[t].x[i-1] != game.ball.x[i-1]) {
         ball = true;
       }
-
-
       game.ball.inPlay = true;
     }
   }
   int maxDepth =3; // 木の深さを指定
-
-
-  //tri.draw(i, timeAX, timeAY, game.ball.x[i], game.ball.y[i]);
-
-
   if (game.ball.x[i] != 0 && game.ball.y[i] != 0) {
     Line(timeHX, timeHY);
 
@@ -233,9 +187,7 @@ void draw() {
     }
     if (num!=100) {
       // ルートノードを作成
-
       root = new TreeNode(line.startX[num], line.startY[num], Key, 0);
-
       // ツリーを再帰的に構築
       buildTree(root, game.ball.x[i], game.ball.y[i], line.startX, line.startY, line.endX, line.endY, timeAX, timeAY, maxDepth);
       drawTree(root);
@@ -243,8 +195,6 @@ void draw() {
       for(int t = 0; t < 11;t++){
         getFastPlayer(game.ball.x[i], game.ball.y[i],game.team1.pl[t].x[i],game.team1.pl[t].y[i],game.team1.pl[t].speed[i]); 
       }
-
-
       if (ball) {
         soundTreeDFS(root);
       }
