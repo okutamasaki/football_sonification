@@ -31,8 +31,6 @@ void drawBall(int X, int Y, color col) {
   pop();
 }
 
-
-
 void drawCircle(int x1, int y1, int x2, int y2) {
   //fill(col);
 
@@ -45,11 +43,6 @@ void drawCircle(int x1, int y1, int x2, int y2) {
   ellipse(x1*scale, y1*scale, dia*scale, dia*scale);
   pop();
 }
-
-
-
-
-
 
 int[][] getCombinations(int len) {
   int numCombinations = len * (len - 1) * (len -2) / 6; // 組み合わせの数を計算
@@ -76,9 +69,6 @@ int[][] getCombinations(int len) {
   }
   return combinations;
 }
-
-
-
 void Line(int[]x, int[]y) {
   float [][] points = new float[11][2];
   for (int i = 0; i < x.length; i++) {
@@ -86,11 +76,8 @@ void Line(int[]x, int[]y) {
     points[i][1] = y[i];
   }
 
-
   Delaunay myDelaunay = new Delaunay(points);
   int[][] myLinks = myDelaunay.getLinks();
-
-
   for (int i=0; i<myLinks.length; i++) {
     int startIndex = myLinks[i][0];
     int endIndex = myLinks[i][1];
@@ -99,8 +86,6 @@ void Line(int[]x, int[]y) {
     float startY = points[startIndex][1];
     float endX = points[endIndex][0];
     float endY = points[endIndex][1];
-
-
 
     if (startX != endX && startX != 0 && startY != 0 && endX != 0 && endY != 0) {
       line.startX[i] = int(startX);
@@ -116,9 +101,6 @@ void Line(int[]x, int[]y) {
     pop();
   }
 }
-
-
-
 
 void buildTree(TreeNode node, int x, int y, int sx[], int sy[], int ex[], int ey[], int[] enemyX, int[]enemyY, int maxDepth) {
   if (node.depth < maxDepth) {
